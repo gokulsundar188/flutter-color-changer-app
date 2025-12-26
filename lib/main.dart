@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 // App entry point
@@ -12,56 +14,57 @@ class ColorChangerApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Color Changer',
       theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: const ColorChanger(title: 'Flutter Demo Home Page'),
+      home: const ColorChanger(),
     );
   }
 }
 
 // Color changer Home
 class ColorChanger extends StatefulWidget {
-  const ColorChanger({super.key, required this.title});
-
-  final String title;
+  const ColorChanger({super.key});
 
   @override
   State<ColorChanger> createState() => _ColorChangerState();
 }
 
 class _ColorChangerState extends State<ColorChanger> {
-  int _counter = 0;
+  Color _bgColor = Colors.white;
+  final Random _random = Random();
 
-  void _incrementCounter() {
+  @override
+  void initState() {
+    _changeColor();
+    super.initState();
+  }
+
+  void _changeColor() {
     setState(() {
-      _counter++;
+      _bgColor = Color.fromARGB(
+        255, // opacity
+        _random.nextInt(256), // red - random range from 0 - 255
+        _random.nextInt(256), // green
+        _random.nextInt(256), // blue
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      body: AnimatedContainer(
+        duration: Duration(milliseconds: 500),
+        color: _bgColor,
+        alignment: Alignment.center,
+        child: ElevatedButton(
+          onPressed: _changeColor,
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.white,
+          ),
+          child: Text("Change my color..."),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }
