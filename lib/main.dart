@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
+// App entry point
 void main() {
   runApp(const ColorChangerApp());
 }
 
+// Material app
 class ColorChangerApp extends StatelessWidget {
   const ColorChangerApp({super.key});
 
@@ -17,6 +19,7 @@ class ColorChangerApp extends StatelessWidget {
   }
 }
 
+// Color changer Home
 class ColorChanger extends StatefulWidget {
   const ColorChanger({super.key, required this.title});
 
